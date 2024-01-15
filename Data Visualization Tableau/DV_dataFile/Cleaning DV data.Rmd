@@ -1,0 +1,56 @@
+---
+title: "Cleaning"
+author: "Adeola Odunewu"
+date: "2023-07-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+Sat_score <- read.csv("scores.csv")
+```
+
+
+```{r}
+# Checking for missing values
+missing_values <- is.na(Sat_score)
+missing_data <- sum(missing_values)
+missing_data
+```
+
+
+```{r}
+# Replace missing values with column means
+for (col in 1:ncol(Sat_score)) {
+  if (is.numeric(Sat_score[[col]])) {
+    col_mean <- mean(Sat_score[[col]], na.rm = TRUE)
+    Sat_score[missing_values[, col], col] <- col_mean
+  }
+}
+```
+
+
+```{r}
+summary(Sat_score)
+```
+
+
+
+
+```{r}
+# Export data to CSV
+write.csv(Sat_score, "Sat_scores.csv", row.names = FALSE)
+
+```
+
+
+```{r}
+head(Sat_score)
+```
+
+
+
